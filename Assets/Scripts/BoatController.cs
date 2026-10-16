@@ -4,30 +4,30 @@ public class BoatController : MonoBehaviour
 {
     [Header("SailModel")]
     public SkinnedMeshRenderer sailMesh;
-    private int sailBlendShapeIndex = 0;
+    private int _sailBlendShapeIndex = 0;
 
     [Header("Boat Sail Opening Data")]
-    public float sailOpenSpeed = 5f;
-    public float sailRotationSpeed = 30f;
-    public float maxBoatSpeed = 10f;
+    [SerializeField] float _sailOpenSpeed = 5f;
+    [SerializeField] float _sailRotationSpeed = 30f;
+    [SerializeField] float _maxBoatSpeed = 10f;
 
 
     [Header("Main Sail Data")]
     [SerializeField, Range(-45f, 45f)]
-    private float sailAngle = 0f;
+    private float _sailAngle = 0f;
 
     [SerializeField, Range(0f, 100f)]
-    private float sailValue = 100f;
+    private float _sailValue = 100f;
 
 
     [Header("Boat Speed Data")]
-    [SerializeField] private float acceleration = 2f;
-    [SerializeField] private float waterDrag = 0.5f;
-    [SerializeField] private float turnStrength = 30f;
+    [SerializeField] private float _acceleration = 2f;
+    [SerializeField] private float _waterDrag = 0.5f;
+    [SerializeField] private float _turnStrength = 30f;
 
-    private float boatSpeed = 0f;
+    private float _boatSpeed = 0f;
 
-    void Update()
+    private void Update()
     {
         BoatControlManagment();
 
@@ -44,32 +44,32 @@ public class BoatController : MonoBehaviour
     private void BoatMovement()
     {
         //calculate speed that boat can reach while sail is folded in current stage
-        float sailDeployment = (100 - sailValue) / 100f; 
-        float targetSpeed = maxBoatSpeed * sailDeployment;
+        float sailDeployment = (100 - _sailValue) / 100f; 
+        float targetSpeed = _maxBoatSpeed * sailDeployment;
 
 
 
         //boat accelerate if its speed is lover than target or slow down if its higher
-        if (boatSpeed < targetSpeed)
+        if (_boatSpeed < targetSpeed)
         {
-            boatSpeed = Mathf.MoveTowards(boatSpeed, targetSpeed, acceleration * Time.deltaTime);
+            _boatSpeed = Mathf.MoveTowards(_boatSpeed, targetSpeed, _acceleration * Time.deltaTime);
         }
         else
         {        
-            boatSpeed = Mathf.MoveTowards(boatSpeed, targetSpeed, waterDrag * Time.deltaTime);
+            _boatSpeed = Mathf.MoveTowards(_boatSpeed, targetSpeed, _waterDrag * Time.deltaTime);
         }
 
         //Move forward with calculated boatSpeed
-        transform.position += transform.forward * boatSpeed * Time.deltaTime;
+        transform.position += transform.forward * _boatSpeed * Time.deltaTime;
     }
 
 
     //_____________________________________________________Calculate Boat Rotation and make it rotate_________________________________________________________________________
     private void BoatRotation()
     {
-        float steering = sailAngle / 45f;
-        float speedFactor = boatSpeed / Mathf.Max(maxBoatSpeed, 0.01f);
-        float turnRate = steering * turnStrength * speedFactor;
+        float steering = _sailAngle / 45f;
+        float speedFactor = _boatSpeed / Mathf.Max(_maxBoatSpeed, 0.01f);
+        float turnRate = steering * _turnStrength * speedFactor;
 
 
         transform.Rotate(0f, turnRate * Time.deltaTime, 0f, Space.Self);
@@ -80,28 +80,28 @@ public class BoatController : MonoBehaviour
     private void BoatControlManagment()
     {
         //Update sail folding variable then check if it reached max or min value
-        if (InputManager.instance.OnSailSet())
+        if (InputManager.Instance.OnSailSet())
         {
-            sailValue -= sailOpenSpeed * Time.deltaTime;
+            _sailValue -= _sailOpenSpeed * Time.deltaTime;
         }
-        else if (InputManager.instance.OnSailFolded())
+        else if (InputManager.Instance.OnSailFolded())
         {
-            sailValue += sailOpenSpeed * Time.deltaTime;
+            _sailValue += _sailOpenSpeed * Time.deltaTime;
         }
 
-        sailValue = Mathf.Clamp(sailValue, 0f, 100f);
+        _sailValue = Mathf.Clamp(_sailValue, 0f, 100f);
 
         //Update sail direction variable then check if it reached max or min value
-        if (InputManager.instance.OnTurnRight())
+        if (InputManager.Instance.OnTurnRight())
         {
-            sailAngle += sailRotationSpeed * Time.deltaTime;
+            _sailAngle += _sailRotationSpeed * Time.deltaTime;
         }
-        else if (InputManager.instance.OnTurnLeft())
+        else if (InputManager.Instance.OnTurnLeft())
         {
-            sailAngle -= sailRotationSpeed * Time.deltaTime;
+            _sailAngle -= _sailRotationSpeed * Time.deltaTime;
         }
 
-        sailAngle = Mathf.Clamp(sailAngle, -45f, 45f);
+        _sailAngle = Mathf.Clamp(_sailAngle, -45f, 45f);
     }
 
 
@@ -110,17 +110,20 @@ public class BoatController : MonoBehaviour
     {
         if (sailMesh != null)
         {
-            sailMesh.SetBlendShapeWeight(sailBlendShapeIndex, sailValue);
+            sailMesh.SetBlendShapeWeight(_sailBlendShapeIndex, _sailValue);
 
-            sailMesh.transform.localRotation = Quaternion.Euler(90f, sailAngle, 90f);
+            sailMesh.transform.localRotation = Quaternion.Euler(90f, _sailAngle, 90f);
         }
     }
 
     //________________________________________________________________Updating UI of sail spread and sail direction__________________________________________________________
     private void UpdateUI()
     {
-        UIController.Instance.ShowSailValue( 100f - sailValue );
-        UIController.Instance.ShowSailDirection(sailAngle);
+        if (UIController.Instance == null)
+            { return; }
+
+        UIController.Instance.ShowSailValue( 100f - _sailValue );
+        UIController.Instance.ShowSailDirection(_sailAngle);
 
     }
 }

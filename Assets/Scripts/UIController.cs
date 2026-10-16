@@ -7,14 +7,14 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     [Header("UI Toolkit")]
-    [SerializeField] private PanelRenderer panelRenderer;
+    [SerializeField] private PanelRenderer _panelRenderer;
 
 
     //____________________UI references__________________________
-    private Label sailOpeningLabel;
-    private Label sailRotationLabel;
-    private Button closeTutorialButton;
-    private VisualElement tutorial;
+    private Label _sailOpeningLabel;
+    private Label _sailRotationLabel;
+    private Button _closeTutorialButton;
+    private VisualElement _tutorial;
 
 
 
@@ -40,41 +40,41 @@ public class UIController : MonoBehaviour
     
     private void OnEnable()
     {
-        if (panelRenderer == null)
+        if (_panelRenderer == null)
         {
-            panelRenderer = GetComponent<PanelRenderer>();
+            _panelRenderer = GetComponent<PanelRenderer>();
         }
 
-        if (panelRenderer != null)
+        if (_panelRenderer != null)
         {
-            panelRenderer.RegisterUIReloadCallback(OnUIReload);
+            _panelRenderer.RegisterUIReloadCallback(OnUIReload);
         }
     }
 
     private void OnDisable()
     {
-        if (panelRenderer != null)
+        if (_panelRenderer != null)
         {
-            panelRenderer.UnregisterUIReloadCallback(OnUIReload);
+            _panelRenderer.UnregisterUIReloadCallback(OnUIReload);
         }
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root)
     {
         //_________________________________________Set UI Data___________________________________________________________
-        sailOpeningLabel = root.Q<Label>("sail-opening-label");
-        sailRotationLabel = root.Q<Label>("sail-rotation-label");
+        _sailOpeningLabel = root.Q<Label>("sail-opening-label");
+        _sailRotationLabel = root.Q<Label>("sail-rotation-label");
 
-        closeTutorialButton = root.Q<Button>("CloseTutorial");
-        tutorial = root.Q<VisualElement>("Tutorial");
+        _closeTutorialButton = root.Q<Button>("CloseTutorial");
+        _tutorial = root.Q<VisualElement>("Tutorial");
 
 
 
         //_________________________________________Asign Button Function___________________________________________________________
-        if (closeTutorialButton != null && tutorial != null)
+        if (_closeTutorialButton != null && _tutorial != null)
         {
-            closeTutorialButton.clicked -= CloseTutorial;
-            closeTutorialButton.clicked += CloseTutorial;
+            _closeTutorialButton.clicked -= CloseTutorial;
+            _closeTutorialButton.clicked += CloseTutorial;
 
         }
         else
@@ -92,18 +92,18 @@ public class UIController : MonoBehaviour
     //__________shows the level of sail deployment_______________
     public void ShowSailValue(float value)
     {
-        if (sailOpeningLabel != null)
+        if (_sailOpeningLabel != null)
         {
-            sailOpeningLabel.text = "Sail opening: " + Mathf.RoundToInt(value)+"%";
+            _sailOpeningLabel.text = "Sail opening: " + Mathf.RoundToInt(value)+"%";
         }
     }
 
     //_________________shows sail direction_____________________
     public void ShowSailDirection(float direction)
     {
-        if (sailRotationLabel != null)
+        if (_sailRotationLabel != null)
         {
-            sailRotationLabel.text = "Sail rotation: " + Mathf.RoundToInt(direction) + " °";
+            _sailRotationLabel.text = "Sail rotation: " + Mathf.RoundToInt(direction) + " °";
         }
     }
 
@@ -112,6 +112,9 @@ public class UIController : MonoBehaviour
 
     private void CloseTutorial()
     {
-        tutorial.style.display = DisplayStyle.None;
+        if (_tutorial != null)
+        {
+            _tutorial.style.display = DisplayStyle.None;
+        }
     }
 }

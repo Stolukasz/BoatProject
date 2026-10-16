@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9960c7af55ce744998c8fdd98b0d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
-  panelRenderer: {fileID: 604198544}
+  _panelRenderer: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,14 +1160,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoatController
   sailMesh: {fileID: 4997878024580427550}
-  sailOpenSpeed: 50
-  sailRotationSpeed: 30
-  maxBoatSpeed: 10
-  sailAngle: 0
-  sailValue: 100
-  acceleration: 2
-  waterDrag: 1.2
-  turnStrength: 45
+  _sailOpenSpeed: 40
+  _sailRotationSpeed: 30
+  _maxBoatSpeed: 10
+  _sailAngle: 0
+  _sailValue: 100
+  _acceleration: 2
+  _waterDrag: 1
+  _turnStrength: 45
 --- !u!33 &9079933773806245011
 MeshFilter:
   m_ObjectHideFlags: 0

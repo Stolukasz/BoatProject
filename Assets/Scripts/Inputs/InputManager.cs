@@ -3,24 +3,24 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager instance { get; private set; }
-    GameInputActions gameInputActions;
+    public static InputManager Instance { get; private set; }
+    GameInputActions _gameInputActions;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    private void Awake()
     {
         #region Singleton for easy acces to InputManager
 
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
-        gameInputActions = new GameInputActions();
+        _gameInputActions = new GameInputActions();
 
         #endregion
     }
@@ -28,34 +28,34 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        gameInputActions.Enable();
+        _gameInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        gameInputActions.Disable();
+        _gameInputActions.Disable();
     }
 
     
     //____________________________________________________Get Input Data_____________________________________________________
     public bool OnSailSet()
     {
-        return gameInputActions.Player.SetSail.IsPressed();
+        return _gameInputActions.Player.SetSail.IsPressed();
     }
 
     public bool OnSailFolded()
     {
-        return gameInputActions.Player.ReefSail.IsPressed();
+        return _gameInputActions.Player.ReefSail.IsPressed();
     }
 
     public bool OnTurnLeft()
     {
-        return gameInputActions.Player.MoveLeft.IsPressed();
+        return _gameInputActions.Player.MoveLeft.IsPressed();
     }
 
     public bool OnTurnRight()
     {
-        return gameInputActions.Player.MoveRight.IsPressed();
+        return _gameInputActions.Player.MoveRight.IsPressed();
     }
 
 }
