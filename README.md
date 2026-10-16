@@ -17,7 +17,7 @@ A simple boat simulation project created in Unity using C#.
 ## **How to Run**
 1. Clone the repository.
 2. Open the project in Unity Hub.
-3. Open the main scene.
+3. Find Folder Scenes and open SampleScene.
 4. Press **Play**.
 
 ## **Controls**
