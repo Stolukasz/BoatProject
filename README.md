@@ -25,3 +25,12 @@ Player input is configured through the project's input system.
 
 ## **Project Status**
 Developed as part of a recruitment task.
+
+# 3D Asset Credits
+
+This project uses 3D models licensed under Creative Commons Attribution (CC BY).
+
+## Fishing Boat
+
+[**Fishing Boat**](https://sketchfab.com/3d-models/fishing-boat-6692824b088e4cc6932e015a59508a5d) by [**Sanket Pushkar**](https://sketchfab.com/SANKETPUSHKAR) is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+
